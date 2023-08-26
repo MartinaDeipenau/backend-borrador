@@ -63,7 +63,7 @@ app.use(cookieParser(process.env.SIGNED_COOKIES))
 // Configuration session
 
 app.use(
-    session({
+    session({ // Ssession en mongo atlas
         store: MongoStore.create({
             mongoUrl: process.env.URL_MONGOOSE,
             mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
@@ -71,7 +71,7 @@ app.use(
         }),
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: false, // Evita guardar sesiones vacías
     }))
 
 // Configuration passport
@@ -82,8 +82,8 @@ app.use(passport.session())
 
 // Configuration handlebars
 
-app.engine('handlebars', engine())
-app.set('view engine', 'handlebars')
+app.engine('handlebars', engine()) // Voy a trabajar con handlebars
+app.set('view engine', 'handlebars') // Mis vistas son tipo handlebars
 app.set('views', path.join(__dirname, 'src', 'views'))
 
 // Middleware
@@ -121,6 +121,7 @@ app.use('/api/mockingproducts', mockingProductsRouter)
 app.use('/api/loggerTest', loggerRoutes)
 app.use('/api/resetPass', resetPasswordsRouter)
 app.use('/api/user', userRouter)
+// Ruta para documentación de API usando Swagger
 app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(spec))
 
 
